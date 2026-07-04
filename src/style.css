@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+/* Register the Sora variable font file */
+@font-face {
+  font-family: "Sora";
+  src:
+    url("./assets/fonts/Sora/Sora-VariableFont_wght.ttf")
+      format("truetype-variations"),
+    url("./assets/fonts/Sora/Sora-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Register it as a Tailwind utility class */
+@theme {
+  --font-sora: "Sora", sans-serif;
+}
+
+/*  Regular Text (uses 400 weight from the variable font)
+    <p class="font-sora font-normal">This text uses Sora Regular.</p>
+
+    Semi Bold Header (uses 600 weight from the variable font) 
+    <h2 class="font-sora font-semibold">This text uses Sora SemiBold.</h2>
+
+     Bold Title (uses 700 weight from the variable font)
+    <h1 class="font-sora font-bold text-3xl">This text uses Sora Bold.</h1> */

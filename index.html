@@ -15,31 +15,63 @@
     <link href="/src/style.css" rel="stylesheet" />
 
     <title>Frontend Mentor | Typing Speed Test</title>
-
-    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-    <style>
-      .attribution {
-        font-size: 0.6875rem;
-        text-align: center;
-      }
-      .attribution a {
-        color: hsl(228, 45%, 44%);
-      }
-    </style>
   </head>
-  <body class="bg-stone-700 text-red-700 p-4">
-    Personal best:
-    <!-- PB -->
-    WPM WPM:
-    <!-- WPM -->
-    Accuracy:
-    <!-- Accuracy -->
-    Time:
-    <!-- Time -->
+  <body class="bg-neutral-900 text-white font-sora font-normal py-4 mx-20">
+    <header class="flex justify-between items-center mb-8">
+      <img src="src\assets\images\logo-large.svg" alt="" />
+      <div class="flex gap-2">
+        <img class="" src="src\assets\images\icon-personal-best.svg" alt="" />
+        <p class="text-neutral-400">
+          Personal best: <span class="text-white">92 WPM</span>
+        </p>
+      </div>
+    </header>
 
-    Difficulty: Easy Medium Hard Mode: Timed (60s) Passage
+    <div class="flex justify-between">
+      <!-- STATS -->
+      <div class="flex gap-4 text-neutral-400 items-center">
+        <div>WPM: <span class="text-white font-bold">0</span></div>
+        <div class="h-4 w-0.5 bg-neutral-700"><!-- divider --></div>
 
-    <!-- Passage -->
+        <div>Accuracy: <span class="text-white font-bold">100%</span></div>
+        <div class="h-4 w-0.5 bg-neutral-700"><!-- divider --></div>
+
+        <div>Time: <span class="text-white font-bold">0:60</span></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="flex gap-4 text-neutral-400 items-center">
+        <div>
+          Difficulty:
+          <span
+            class="text-slate-200 p-1 border border-neutral-600 text-sm rounded-sm"
+            >Easy</span
+          >
+          <span
+            class="text-slate-200 p-1 border border-neutral-600 text-sm rounded-sm"
+            >Medium</span
+          >
+          <span
+            class="text-slate-200 p-1 border border-neutral-600 text-sm rounded-sm"
+            >Hard</span
+          >
+        </div>
+        <div class="h-4 w-0.5 bg-neutral-700"><!-- divider --></div>
+
+        <div>
+          Mode:
+          <span
+            class="text-slate-200 p-1 border border-neutral-600 text-sm rounded-sm"
+            >Timed (60s)</span
+          >
+          <span
+            class="text-slate-200 p-1 border border-neutral-600 text-sm rounded-sm"
+            >Passage</span
+          >
+        </div>
+      </div>
+    </div>
+    <hr class="w-full text-neutral-700 mt-2 mb-4" />
 
     Start Typing Test Or click the text and start typing
 
@@ -56,10 +88,16 @@
 
     <!-- Test Complete End -->
 
-    <footer class="attribution">
+    <footer class="">
       Challenge by
-      <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
-      Coded by <a href="#">Claudiu Bordea</a>.
+      <a
+        class="bold text-2xl text-blue-600"
+        href="https://www.frontendmentor.io?ref=challenge"
+        >Frontend Mentor</a
+      >. Coded by
+      <a class="bold text-2xl text-blue-600" href="https://github.com/Cloudiu9/"
+        >Claudiu Bordea</a
+      >.
     </footer>
   </body>
 </html>
