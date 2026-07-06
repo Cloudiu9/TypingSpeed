@@ -14,10 +14,12 @@
 
     <link href="/src/style.css" rel="stylesheet" />
 
+    <script type="module" src="/src/index.ts"></script>
+
     <title>Frontend Mentor | Typing Speed Test</title>
   </head>
-  <body class="bg-neutral-900 text-white font-sora font-normal py-4 mx-20">
-    <header class="flex justify-between items-center mb-8">
+  <body class="bg-neutral-900 text-white font-sora font-normal py-6 mx-20">
+    <header class="flex justify-between items-center mb-12">
       <img src="src\assets\images\logo-large.svg" alt="" />
       <div class="flex gap-2">
         <img class="" src="src\assets\images\icon-personal-best.svg" alt="" />
@@ -31,16 +33,18 @@
       <!-- STATS -->
       <div class="flex gap-4 text-neutral-400 items-center">
         <div>WPM: <span class="text-white font-bold">0</span></div>
-        <div class="h-4 w-0.5 bg-neutral-700"><!-- divider --></div>
+        <div class="h-5 w-px bg-neutral-700"><!-- divider --></div>
 
         <div>Accuracy: <span class="text-white font-bold">100%</span></div>
-        <div class="h-4 w-0.5 bg-neutral-700"><!-- divider --></div>
+        <div class="h-5 w-px bg-neutral-700"><!-- divider --></div>
 
-        <div>Time: <span class="text-white font-bold">0:60</span></div>
+        <div>
+          Time: <span id="timer" class="text-white font-bold">0:60</span>
+        </div>
       </div>
 
       <!-- SETTINGS -->
-      <div class="flex gap-4 text-neutral-400 items-center">
+      <div class="flex gap-4 ml-2 text-neutral-400 items-center">
         <div>
           Difficulty:
           <span
@@ -56,7 +60,7 @@
             >Hard</span
           >
         </div>
-        <div class="h-4 w-0.5 bg-neutral-700"><!-- divider --></div>
+        <div class="h-5 w-px bg-neutral-700"><!-- divider --></div>
 
         <div>
           Mode:
@@ -71,33 +75,68 @@
         </div>
       </div>
     </div>
-    <hr class="w-full text-neutral-700 mt-2 mb-4" />
+    <hr class="w-full text-neutral-700 mt-3 mb-4" />
 
-    Start Typing Test Or click the text and start typing
+    <div class="relative px-1">
+      <!-- TEXT TO WRITE -->
+      <p class="text-3xl" id="racing-text">
+        The archaeological expedition unearthed artifacts that complicated
+        prevailing theories about Bronze Age trade networks. Obsidian from
+        Anatolia, lapis lazuli from Afghanistan, and amber from the Baltic—all
+        discovered in a single Mycenaean tomb—suggested commercial connections
+        far more extensive than previously hypothesized. \"We've underestimated
+        ancient peoples' navigational capabilities and their appetite for luxury
+        goods,\" the lead researcher observed. \"Globalization isn't as modern
+        as we assume.\ The archaeological expedition unearthed artifacts that
+        complicated prevailing theories about Bronze Age trade networks.
+        Obsidian from Anatolia, lapis lazuli from Afghanistan, and amber from
+        the Baltic—all discovered in a single Mycenaean tomb—suggested
+        commercial connections far more extensive than previously hypothesized.
+        \"We've underestimated ancient peoples' navigational capabilities and
+        their appetite for luxury goods,\" the lead researcher observed.
+      </p>
 
-    <!-- Test Complete Start -->
+      <!-- OVERLAY -->
+      <div
+        id="overlay"
+        class="flex flex-col justify-center items-center absolute inset-0 text-center backdrop-blur-xs"
+      >
+        <button
+          id="start"
+          class="p-3 bg-blue-600 text-white rounded-md font-bold cursor-pointer hover:text-lg hover:bg-blue-700 transition-all"
+        >
+          Start Typing Test
+        </button>
+        <p class="mt-3">Or click the text and start typing</p>
+      </div>
+    </div>
+
+    <!-- Test Complete Start
 
     Test Complete! Solid run. Keep pushing to beat your high score. WPM:
-    <!-- WPM -->
+    WPM
     Accuracy:
-    <!-- Accuracy -->
+     Accuracy
     Characters:
-    <!-- Correct/Incorrect -->
+     Correct/Incorrect
 
     Go Again
 
-    <!-- Test Complete End -->
+    Test Complete End -->
 
-    <footer class="">
+    <footer class="mt-20 text-center">
       Challenge by
       <a
-        class="bold text-2xl text-blue-600"
+        class="bold text-2xl text-blue-600 px-2"
         href="https://www.frontendmentor.io?ref=challenge"
-        >Frontend Mentor</a
-      >. Coded by
-      <a class="bold text-2xl text-blue-600" href="https://github.com/Cloudiu9/"
-        >Claudiu Bordea</a
-      >.
+        >Frontend Mentor.</a
+      >
+      Coded by
+      <a
+        class="bold text-2xl text-blue-600 px-2"
+        href="https://github.com/Cloudiu9/"
+        >Claudiu Bordea.</a
+      >
     </footer>
   </body>
 </html>
