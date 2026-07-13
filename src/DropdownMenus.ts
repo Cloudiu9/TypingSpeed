@@ -1,3 +1,5 @@
+const ACTIVE_CLASS = ["bg-blue-600", "text-white"];
+
 export default function DropdownMenus() {
   // Display/hide menu dropdown (difficulty)
   const popoverDiff = document.querySelector("#difficulty-menu") as HTMLElement;
@@ -6,12 +8,16 @@ export default function DropdownMenus() {
   difficultyButtons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const target = e.currentTarget as HTMLButtonElement;
+      setActiveButtons(target, ".difficulty-btn", ACTIVE_CLASS);
+
       const selectedDifficulty = target.getAttribute("data-value");
 
       console.log(`Changed difficulty to ${selectedDifficulty}`);
 
-      if (popoverDiff && typeof (popoverDiff as any).hidePopover === "function")
-        (popoverDiff as any).hidePopover();
+      // browser hooks popovertarget to popover element and automatically handles toggling the visibility of the dropdown menu (from HTML)
+      // still have to close manually when choosing a difficulty
+      if (popoverDiff && "hidePopover" in popoverDiff)
+        popoverDiff.hidePopover();
     });
   });
 
@@ -22,12 +28,34 @@ export default function DropdownMenus() {
   modeButtons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const target = e.currentTarget as HTMLButtonElement;
+      setActiveButtons(target, ".mode-btn", ACTIVE_CLASS);
+
       const selectedMode = target.getAttribute("data-value");
 
       console.log(`Changed Mode to ${selectedMode}`);
 
-      if (popoverMode && typeof (popoverMode as any).hidePopover === "function")
-        (popoverMode as any).hidePopover();
+      if (popoverMode && "hidePopover" in popoverMode)
+        popoverMode.hidePopover();
     });
   });
+}
+
+function setActiveButtons(
+  clickedBtn: HTMLButtonElement,
+  selectorGroup: string,
+  activeClass: string[],
+) {
+  /*
+loops over buttons from group
+removes the active class from group
+adds active class to the clicked button
+*/
+
+  const groupBtns = document.querySelectorAll(selectorGroup);
+
+  groupBtns.forEach((btn) => {
+    btn.classList.remove(...activeClass);
+  });
+
+  clickedBtn.classList.add(...activeClass);
 }
