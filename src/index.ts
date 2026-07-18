@@ -1,5 +1,7 @@
 import DropdownMenus from "./DropdownMenus";
-import StartRun from "./StartRun";
+import StartGame from "./GameLogic";
 
-StartRun();
+StartGame();
+
+// menu interactivity + mobile
 DropdownMenus();
