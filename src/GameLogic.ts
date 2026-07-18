@@ -1,7 +1,7 @@
 // TODO
 
 import StartRun from "./StartRun";
-import data from "../data.json"
+import data from "../data.json";
 
 const racingText = document.querySelector<HTMLParagraphElement>("#racing-text");
 
@@ -28,11 +28,32 @@ export default function StartGame() {
   StartRun();
 
   // split each character into a span
+  splitQuote();
 }
+
 // https://www.geeksforgeeks.org/javascript/design-a-typing-speed-test-game-using-javascript/
 function splitQuote() {
+  if (!racingText) return;
   racingText.textContent = null;
-  game.text = data.easy[]
+
+  // get difficulty from game state
+  const difficultyKey = game.difficulty.toLowerCase() as keyof typeof data;
+
+  const randomNum = Math.floor(Math.random() * 10);
+
+  // change state to a random text
+  game.text = data[difficultyKey][randomNum].text;
+
+  // Split each char into a span
+  game.text.split("").forEach((char) => {
+    const charSpan = document.createElement("span");
+    charSpan.innerText = char;
+    racingText.appendChild(charSpan);
+  });
+
+  // TODO
+  // at start: Change all but first spans to text gray
+  // User can write => if letter matches => turn it green, else red
 }
 
 /* 2. One span per character:
