@@ -1,9 +1,11 @@
 // TODO
+// add a cap of ~15 user inputs per letter, so user can't just hold down 'a' for whole text, or maybe only move index when letter is right? maybe it doesn't matter as accuracy will just be near 0?
 
 import StartRun from "./StartRun";
 import data from "../data.json";
 
 const racingText = document.querySelector<HTMLParagraphElement>("#racing-text");
+const WPM = document.querySelector<HTMLSpanElement>("#wpm-cur");
 
 // Source of truth for game state
 const game = {
@@ -17,18 +19,15 @@ const game = {
   timeRemaining: 60,
 };
 
-/* 
-1. Click start
-2. Timer starts
-3. User can write => if letter matches => turn it green, else red
-*/
-
 export default function StartGame() {
   // starts timer
   StartRun();
 
   // split each character into a span
   splitQuote();
+
+  // listen for user typing and update state
+  userTyping();
 }
 
 // https://www.geeksforgeeks.org/javascript/design-a-typing-speed-test-game-using-javascript/
@@ -47,35 +46,50 @@ function splitQuote() {
   // Split each char into a span
   game.text.split("").forEach((char) => {
     const charSpan = document.createElement("span");
+
+    // put the current letter in the span
     charSpan.innerText = char;
+
+    // add the span to the parent div
     racingText.appendChild(charSpan);
   });
-
-  // TODO
-  // at start: Change all but first spans to text gray
-  // User can write => if letter matches => turn it green, else red
 }
 
-/* 2. One span per character:
-gray (not typed)
-green (correct)
-red (incorrect)
-underlined/current
-*/
+function userTyping() {
+  // reset index on retry
+  game.currentIndex = 0;
 
-/*3. Capture keyboard input
+  // mark first letter
+  racingText?.children[game.currentIndex].classList.add("underline");
 
-Instead of an <input>, listen for keyboard events.
+  document.addEventListener("keydown", (e) => {
+    // prevent null error when text ends
+    if (!racingText?.children[game.currentIndex]) return;
 
-keydown
-or
-beforeinput
+    // don't capture unwanted keys (ctrl, tab, etc.)
+    if (e.key.length !== 1) return;
 
-Whenever a key is pressed:
+    // compare e.key to current key
+    if (e.key !== game.text[game.currentIndex]) {
+      // mark letter as wrong
+      racingText?.children[game.currentIndex].classList.add("text-red-600");
+    }
 
-compare it to the current character
-update the current index
-mark that character as correct/incorrect
-move the caret
+    if (!WPM) return;
+    WPM.textContent = String(game.currentIndex);
+    // console.log(e.key, game.text[game.currentIndex]);
 
-*/
+    // mark letter as right
+    racingText?.children[game.currentIndex].classList.add("text-green-600");
+
+    // move to the next letter
+    game.currentIndex++;
+
+    if (!racingText?.children[game.currentIndex]) return;
+
+    // mark letter to type
+    racingText?.children[game.currentIndex].classList.add("underline");
+
+    // console.log(racingText?.children[game.currentIndex].textContent);
+  });
+}

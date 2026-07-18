@@ -18,7 +18,7 @@ export default function StartRun() {
 
       if (SECONDS < 0) {
         clearInterval(timer);
-        alert("You type X WPM");
+        // alert("You type X WPM");
         // TODO After confirming the alert/button that pops up, reset everything? ==> randomize text, add overlay back, reset timer
       }
     }, 1000);
