@@ -1,3 +1,5 @@
+import { game, splitQuote } from "./GameLogic";
+
 const ACTIVE_CLASS = ["bg-blue-600", "text-white"];
 
 export default function DropdownMenus() {
@@ -11,8 +13,10 @@ export default function DropdownMenus() {
       setActiveButtons(target, ".difficulty-btn", ACTIVE_CLASS);
 
       const selectedDifficulty = target.getAttribute("data-value");
+      game.difficulty = selectedDifficulty ?? "Easy";
 
-      console.log(`Changed difficulty to ${selectedDifficulty}`);
+      // Changing text when difficulty changes
+      splitQuote();
 
       // browser hooks popovertarget to popover element and automatically handles toggling the visibility of the dropdown menu (from HTML)
       // still have to close manually when choosing a difficulty
@@ -58,4 +62,15 @@ adds active class to the clicked button
   });
 
   clickedBtn.classList.add(...activeClass);
+}
+
+export function syncMenuInteractiveness() {
+  const menuButtons = document.querySelectorAll(".difficulty-btn, .mode-btn");
+
+  menuButtons.forEach((btn) => {
+    // if game started and not finished, disable menus
+    if (game.started && !game.finished)
+      btn.classList.add("pointer-events-none", "opacity-50");
+    else btn.classList.remove("pointer-events-none", "opacity-50");
+  });
 }

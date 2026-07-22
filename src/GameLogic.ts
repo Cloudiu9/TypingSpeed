@@ -1,14 +1,13 @@
-// TODO
-// add a cap of ~15 user inputs per letter, so user can't just hold down 'a' for whole text, or maybe only move index when letter is right? maybe it doesn't matter as accuracy will just be near 0?
-
 import StartRun from "./StartRun";
 import data from "../data.json";
+import { syncMenuInteractiveness } from "./DropdownMenus";
 
 const racingText = document.querySelector<HTMLParagraphElement>("#racing-text");
-const WPM = document.querySelector<HTMLSpanElement>("#wpm-cur");
+const WPMButton = document.querySelector<HTMLSpanElement>("#wpm-cur");
+const ACCButton = document.querySelector<HTMLSpanElement>("#acc-cur");
 
 // Source of truth for game state
-const game = {
+export const game = {
   text: "",
   currentIndex: 0,
   mistakes: 0,
@@ -17,9 +16,18 @@ const game = {
   difficulty: "Easy",
   mode: "Timed",
   timeRemaining: 60,
+  WPM: 0,
+  accuracy: 0,
 };
 
 export default function StartGame() {
+  // Update state flags
+  game.started = true;
+  game.finished = false;
+
+  // Sync menus
+  syncMenuInteractiveness();
+
   // starts timer
   StartRun();
 
@@ -31,9 +39,10 @@ export default function StartGame() {
 }
 
 // https://www.geeksforgeeks.org/javascript/design-a-typing-speed-test-game-using-javascript/
-function splitQuote() {
+export function splitQuote() {
   if (!racingText) return;
   racingText.textContent = null;
+  game.currentIndex = 0;
 
   // get difficulty from game state
   const difficultyKey = game.difficulty.toLowerCase() as keyof typeof data;
@@ -73,10 +82,13 @@ function userTyping() {
     if (e.key !== game.text[game.currentIndex]) {
       // mark letter as wrong
       racingText?.children[game.currentIndex].classList.add("text-red-600");
+
+      game.mistakes++;
     }
 
-    if (!WPM) return;
-    WPM.textContent = String(game.currentIndex);
+    calculateWPM();
+    calculateAccuracy();
+
     // console.log(e.key, game.text[game.currentIndex]);
 
     // mark letter as right
@@ -90,6 +102,40 @@ function userTyping() {
     // mark letter to type
     racingText?.children[game.currentIndex].classList.add("underline");
 
-    // console.log(racingText?.children[game.currentIndex].textContent);
+    // Mark game as finished when reaching end
+    if (game.currentIndex + 1 === game.text.length) {
+      game.started = false;
+      game.finished = true;
+
+      // re-enable menus
+      syncMenuInteractiveness();
+    }
   });
+}
+
+function calculateWPM() {
+  if (!WPMButton) return;
+  // WPM = (characters_typed / 5) * (60 / time_passed)
+  if (60 - game.timeRemaining === 0) {
+    game.WPM = 0;
+  } else {
+    const WPMFormula = Math.trunc(
+      ((game.currentIndex + 1) / 5) * (60 / (60 - game.timeRemaining)),
+    );
+    game.WPM = WPMFormula;
+
+    WPMButton.textContent = String(game.WPM);
+  }
+}
+
+function calculateAccuracy() {
+  if (!ACCButton) return;
+
+  const correctChars = game.currentIndex + 1 - game.mistakes;
+
+  const ACCFormula = Math.round((correctChars / (game.currentIndex + 1)) * 100);
+  console.log(correctChars, game.currentIndex + 1);
+
+  game.accuracy = ACCFormula;
+  ACCButton.textContent = String(game.accuracy) + "%";
 }
