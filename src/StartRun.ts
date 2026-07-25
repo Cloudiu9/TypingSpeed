@@ -3,7 +3,6 @@ import { game } from "./GameLogic";
 
 export default function StartRun() {
   // Hiding overlay and starting race
-  const btnStart = document.querySelector<HTMLButtonElement>("#start");
   const timerEl = document.querySelector<HTMLSpanElement>("#timer");
   const overlayEl = document.querySelector<HTMLDivElement>("#overlay");
 
@@ -32,5 +31,5 @@ export default function StartRun() {
     }, 1000);
   }
 
-  btnStart?.addEventListener("click", startRun);
+  startRun();
 }

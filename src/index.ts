@@ -1,9 +1,14 @@
 // https://www.frontendmentor.io/challenges/typing-speed-test
 
 import DropdownMenus from "./DropdownMenus";
-import StartGame from "./GameLogic";
+import StartGame, { splitQuote } from "./GameLogic";
 
-StartGame();
+const btnStart = document.querySelector<HTMLButtonElement>("#start");
+
+btnStart?.addEventListener("click", StartGame);
+
+// show text before starting
+splitQuote();
 
 // menu interactivity + mobile
 DropdownMenus();
@@ -13,3 +18,6 @@ DropdownMenus();
 // 2. Change game ending alert to the results page
 // 3. After confirming the alert/button that pops up, reset everything? ==> randomize text, add overlay back, reset timer (StartRun)
 // 4. When swapping a mode/difficulty ==> reset whole game (timer, WPM, states)
+
+// TODO IMP
+// Add hidden class to wrapper div and remove hidden from results div on game finish
