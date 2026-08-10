@@ -18,6 +18,7 @@ export const game = {
   timeRemaining: 60,
   WPM: 0,
   accuracy: 0,
+  quotesNo: 15, // TODO change this so it's dynamic to the length of a difficulty (easy: 15)
 };
 
 export default function StartGame() {
@@ -47,7 +48,7 @@ export function splitQuote() {
   // get difficulty from game state
   const difficultyKey = game.difficulty.toLowerCase() as keyof typeof data;
 
-  const randomNum = Math.floor(Math.random() * 10);
+  const randomNum = Math.floor(Math.random() * game.quotesNo);
 
   // change state to a random text
   game.text = data[difficultyKey][randomNum].text;
