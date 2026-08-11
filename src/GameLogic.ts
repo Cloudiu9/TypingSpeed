@@ -95,15 +95,9 @@ function userTyping() {
     // mark letter as right
     racingText?.children[game.currentIndex].classList.add("text-green-600");
 
-    // move to the next letter
-    game.currentIndex++;
+    // Mark game as finished when reaching end BUG?? fixed by moving this before currentIndex++ ?
+    // console.log(game.currentIndex + 1, game.text.length);
 
-    if (!racingText?.children[game.currentIndex]) return;
-
-    // mark letter to type
-    racingText?.children[game.currentIndex].classList.add("underline");
-
-    // Mark game as finished when reaching end
     if (game.currentIndex + 1 === game.text.length) {
       game.started = false;
       game.finished = true;
@@ -111,6 +105,14 @@ function userTyping() {
       // re-enable menus
       syncMenuInteractiveness();
     }
+
+    // move to the next letter
+    game.currentIndex++;
+
+    if (!racingText?.children[game.currentIndex]) return;
+
+    // mark letter to type
+    racingText?.children[game.currentIndex].classList.add("underline");
   });
 }
 
@@ -135,7 +137,7 @@ function calculateAccuracy() {
   const correctChars = game.currentIndex + 1 - game.mistakes;
 
   const ACCFormula = Math.round((correctChars / (game.currentIndex + 1)) * 100);
-  console.log(correctChars, game.currentIndex + 1);
+  // console.log(correctChars, game.currentIndex + 1);
 
   game.accuracy = ACCFormula;
   ACCButton.textContent = String(game.accuracy) + "%";

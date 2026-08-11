@@ -21,7 +21,11 @@ ShowResults();
 // After confirming the alert/button that pops up, reset everything? ==> randomize text, add overlay back, reset timer (StartRun)
 // When swapping a mode/difficulty ==> reset whole game (timer, WPM, states)
 
+// TODO
+// BUG Typing test ends 1 character too soon. (can't type final .) Fixed by moving the game ending check before increasing index (needs more testing?)
+
 // TODO IMP
 // --DONE-- Add hidden class to wrapper div and remove hidden from results div on game finish
 //
-// Change game ending alert to the results page
+// --DONE-- Change game ending alert to the results page
+// Reset game state to beginning after clicking restart
