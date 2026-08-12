@@ -2,7 +2,6 @@
 
 import DropdownMenus from "./DropdownMenus";
 import StartGame, { splitQuote } from "./GameLogic";
-import ShowResults from "./ShowResults";
 
 const btnStart = document.querySelector<HTMLButtonElement>("#start");
 
@@ -13,8 +12,6 @@ splitQuote();
 
 // menu interactivity + mobile
 DropdownMenus();
-
-ShowResults();
 
 // TODO
 // add a cap of ~15 user inputs per letter, so user can't just hold down 'a' for whole text, or maybe only move index when letter is right? maybe it doesn't matter as accuracy will just be near 0? (GameLogic)
@@ -28,4 +25,4 @@ ShowResults();
 // --DONE-- Add hidden class to wrapper div and remove hidden from results div on game finish
 //
 // --DONE-- Change game ending alert to the results page
-// Reset game state to beginning after clicking restart
+// IMP Reset game state to beginning after clicking restart (make restart btn actually restart)

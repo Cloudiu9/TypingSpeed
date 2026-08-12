@@ -1,10 +1,16 @@
-import StartRun from "./StartRun";
+import StartRun, { hideResults } from "./HandleRun";
 import data from "../data.json";
 import { syncMenuInteractiveness } from "./DropdownMenus";
 
 const racingText = document.querySelector<HTMLParagraphElement>("#racing-text");
 const WPMButton = document.querySelector<HTMLSpanElement>("#wpm-cur");
 const ACCButton = document.querySelector<HTMLSpanElement>("#acc-cur");
+
+// Results
+const wpmSpan = document.querySelector("#results-wpm");
+const accSpan = document.querySelector("#results-acc");
+const corSpan = document.querySelector("#results-cor");
+const wrongSpan = document.querySelector("#results-wrong");
 
 // Source of truth for game state
 export const game = {
@@ -18,7 +24,7 @@ export const game = {
   timeRemaining: 60,
   WPM: 0,
   accuracy: 0,
-  quotesNo: 15, // TODO change this so it's dynamic to the length of a difficulty (easy: 15)
+  quotesNo: data.easy.length, // assumes all difficulties have same length
 };
 
 export default function StartGame() {
@@ -37,6 +43,9 @@ export default function StartGame() {
 
   // listen for user typing and update state
   userTyping();
+
+  // hide results on restart btn click
+  hideResults();
 }
 
 // https://www.geeksforgeeks.org/javascript/design-a-typing-speed-test-game-using-javascript/
@@ -128,6 +137,10 @@ function calculateWPM() {
     game.WPM = WPMFormula;
 
     WPMButton.textContent = String(game.WPM);
+
+    // Results page
+    if (!wpmSpan) return;
+    wpmSpan.textContent = String(game.WPM);
   }
 }
 
@@ -137,8 +150,17 @@ function calculateAccuracy() {
   const correctChars = game.currentIndex + 1 - game.mistakes;
 
   const ACCFormula = Math.round((correctChars / (game.currentIndex + 1)) * 100);
-  // console.log(correctChars, game.currentIndex + 1);
 
   game.accuracy = ACCFormula;
   ACCButton.textContent = String(game.accuracy) + "%";
+
+  // Results page
+  if (!accSpan) return;
+  accSpan.textContent = String(game.accuracy) + "%";
+
+  if (!corSpan) return;
+  corSpan.textContent = String(correctChars);
+
+  if (!wrongSpan) return;
+  wrongSpan.textContent = String(game.mistakes);
 }

@@ -9,6 +9,7 @@ const timerEl = document.querySelector<HTMLSpanElement>("#timer");
 const overlayEl = document.querySelector<HTMLDivElement>("#overlay");
 const resultsWrapper = document.querySelector<HTMLDivElement>("#results");
 const mainWrapper = document.querySelector<HTMLDivElement>("#wrapper-main");
+const restartBtn = document.querySelector("#results-restart-btn");
 
 export default function StartRun() {
   function startRun() {
@@ -42,4 +43,11 @@ function endGame() {
     resultsWrapper?.classList.remove("hidden");
     // TODO Reset everything ==> randomize text, add overlay back, reset timer
   }
+}
+
+export function hideResults() {
+  restartBtn?.addEventListener("click", () => {
+    resultsWrapper?.classList.add("hidden");
+    mainWrapper?.classList.remove("hidden");
+  });
 }
