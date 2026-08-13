@@ -1,4 +1,4 @@
-import { game, splitQuote } from "./GameLogic";
+import { game, getRacingText } from "./GameLogic";
 
 const ACTIVE_CLASS = ["bg-blue-600", "text-white"];
 
@@ -16,7 +16,7 @@ export default function DropdownMenus() {
       game.difficulty = selectedDifficulty ?? "Easy";
 
       // Changing text when difficulty changes
-      splitQuote();
+      getRacingText();
 
       // browser hooks popovertarget to popover element and automatically handles toggling the visibility of the dropdown menu (from HTML)
       // still have to close manually when choosing a difficulty

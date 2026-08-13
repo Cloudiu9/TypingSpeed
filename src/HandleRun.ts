@@ -1,5 +1,10 @@
 import { syncMenuInteractiveness } from "./DropdownMenus";
-import { game } from "./GameLogic";
+import {
+  calculateAccuracy,
+  calculateWPM,
+  defaultGame,
+  game,
+} from "./GameLogic";
 
 // moved this outside for the helper function BUG?
 let timer: number;
@@ -9,11 +14,34 @@ const timerEl = document.querySelector<HTMLSpanElement>("#timer");
 const overlayEl = document.querySelector<HTMLDivElement>("#overlay");
 const resultsWrapper = document.querySelector<HTMLDivElement>("#results");
 const mainWrapper = document.querySelector<HTMLDivElement>("#wrapper-main");
-const restartBtn = document.querySelector("#results-restart-btn");
+const restartBtn = document.querySelector("#results-restart");
+
+restartBtn?.addEventListener("click", () => {
+  // reset game state
+  Object.assign(game, defaultGame);
+
+  // show overlay
+  overlayEl?.classList.remove("hidden");
+
+  // hide results
+  resultsWrapper?.classList.add("hidden");
+  resultsWrapper?.classList.remove("flex");
+  mainWrapper?.classList.remove("hidden");
+
+  // Reset UI
+  calculateWPM();
+  calculateAccuracy();
+
+  if (!timerEl) return;
+  timerEl.textContent = "0:60";
+});
 
 export default function StartRun() {
   function startRun() {
     game.started = true;
+
+    // clear on restart to avoid stacking
+    clearInterval(timer);
 
     // hide overlay
     overlayEl?.classList.add("hidden");
@@ -41,13 +69,9 @@ function endGame() {
     clearInterval(timer);
     mainWrapper?.classList.add("hidden");
     resultsWrapper?.classList.remove("hidden");
-    // TODO Reset everything ==> randomize text, add overlay back, reset timer
-  }
-}
+    resultsWrapper?.classList.add("flex");
 
-export function hideResults() {
-  restartBtn?.addEventListener("click", () => {
-    resultsWrapper?.classList.add("hidden");
-    mainWrapper?.classList.remove("hidden");
-  });
+    // Reset everything ==> randomize text, add overlay back, reset timer
+    // ==> added global event listener, just unhides starting overlay is enough (?)
+  }
 }

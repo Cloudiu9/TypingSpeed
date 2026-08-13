@@ -1,14 +1,14 @@
 // https://www.frontendmentor.io/challenges/typing-speed-test
 
 import DropdownMenus from "./DropdownMenus";
-import StartGame, { splitQuote } from "./GameLogic";
+import StartGame, { getRacingText } from "./GameLogic";
 
 const btnStart = document.querySelector<HTMLButtonElement>("#start");
 
 btnStart?.addEventListener("click", StartGame);
 
 // show text before starting
-splitQuote();
+getRacingText();
 
 // menu interactivity + mobile
 DropdownMenus();
@@ -25,4 +25,4 @@ DropdownMenus();
 // --DONE-- Add hidden class to wrapper div and remove hidden from results div on game finish
 //
 // --DONE-- Change game ending alert to the results page
-// IMP Reset game state to beginning after clicking restart (make restart btn actually restart)
+// --DONE-- Reset game state to beginning after clicking restart (make restart btn actually restart) ==> just had to unhide Start btn
