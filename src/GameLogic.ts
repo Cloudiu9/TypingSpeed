@@ -13,29 +13,65 @@ const corSpan = document.querySelector("#results-cor");
 const wrongSpan = document.querySelector("#results-wrong");
 
 // Global event listener to avoid stacking on restart.
+
+// TODO Correct mistakes with backspace (original errors still count against accuracy)
 document.addEventListener("keydown", (e) => {
   if (!game.started || game.finished) return;
+
   // prevent null error when text ends
   if (!racingText?.children[game.currentIndex]) return;
 
   // don't capture unwanted keys (ctrl, tab, etc.)
-  if (e.key.length !== 1) return;
+  if (e.key.length !== 1 && e.key !== "Backspace") return;
 
-  // compare e.key to current key
+  if (e.key === "Backspace" && game.currentIndex > 0) {
+    racingText?.children[game.currentIndex].classList.remove("underline");
+    game.currentIndex--;
+    racingText?.children[game.currentIndex].classList.remove("text-red-600");
+    racingText?.children[game.currentIndex].classList.remove("text-green-600");
+    racingText?.children[game.currentIndex].classList.add("underline");
+
+    calculateWPM();
+    calculateAccuracy();
+
+    game.typingLock = false;
+
+    return;
+  }
+
+  if (game.typingLock) return;
+
+  // valid character
+  game.totalTyped++;
+
+  // if wrong
   if (e.key !== game.text[game.currentIndex]) {
     // mark letter as wrong
     racingText?.children[game.currentIndex].classList.add("text-red-600");
 
     game.mistakes++;
+
+    game.consecutiveMistakes++;
+
+    // IF >= 5 consecutiveMistakes, prevent typing
+    if (game.consecutiveMistakes >= 5) {
+      game.typingLock = true;
+    }
+  }
+
+  // if correct
+  if (e.key === game.text[game.currentIndex]) {
+    // reset consecutive mistakes
+    game.consecutiveMistakes = 0;
+
+    // mark letter as right
+    racingText?.children[game.currentIndex].classList.add("text-green-600");
   }
 
   calculateWPM();
   calculateAccuracy();
 
-  // mark letter as right
-  racingText?.children[game.currentIndex].classList.add("text-green-600");
-
-  // Mark game as finished when reaching end BUG?? fixed by moving this before currentIndex++ ?
+  // Mark game as finished when reaching end // fixed by moving this before currentIndex++ ?
 
   if (game.currentIndex + 1 === game.text.length) {
     game.started = false;
@@ -45,22 +81,30 @@ document.addEventListener("keydown", (e) => {
     syncMenuInteractiveness();
   }
 
+  racingText?.children[game.currentIndex].classList.remove("underline");
+
   // move to the next letter
   game.currentIndex++;
 
+  // prevents error on game end
   if (!racingText?.children[game.currentIndex]) return;
 
   // mark letter to type
   racingText?.children[game.currentIndex].classList.add("underline");
+
+  console.log(game.totalTyped, game.currentIndex);
 });
 
 // Source of truth for game state
 export const game = {
   text: "",
-  currentIndex: 0,
-  mistakes: 0,
+  currentIndex: 0, // current position in text
+  totalTyped: 0, // total character attempts
+  mistakes: 0, // total wrong character attempts
+  consecutiveMistakes: 0,
   started: false,
   finished: false,
+  typingLock: false,
   difficulty: "Easy",
   mode: "Timed",
   timeRemaining: 60,
@@ -71,9 +115,12 @@ export const game = {
 export const defaultGame = {
   text: "",
   currentIndex: 0,
+  totalTyped: 0,
   mistakes: 0,
+  consecutiveMistakes: 0,
   started: false,
   finished: false,
+  typingLock: false,
   difficulty: "Easy",
   mode: "Timed",
   timeRemaining: 60,
@@ -95,7 +142,7 @@ export default function StartGame() {
   // split each character into a span
   getRacingText();
 
-  // listen for user typing and update state
+  // underline letters
   userTyping();
 }
 
@@ -147,7 +194,7 @@ export function calculateWPM() {
     WPMDiv.textContent = String(game.WPM);
   } else {
     const WPMFormula = Math.trunc(
-      ((game.currentIndex + 1) / 5) * (60 / (60 - game.timeRemaining)),
+      (game.totalTyped / 5) * (60 / (60 - game.timeRemaining)),
     );
     game.WPM = WPMFormula;
 
@@ -163,14 +210,20 @@ export function calculateAccuracy() {
   if (!ACCDiv) return;
 
   // restart
-  if (game.timeRemaining === 60) {
+  if (game.totalTyped === 0) {
     ACCDiv.textContent = "0%";
     return;
   }
 
-  const correctChars = game.currentIndex + 1 - game.mistakes;
+  // BUG goes into negative when pressing backspace (-48/54)
+  // TODO change this with game.totalTyped
+  const correctChars = game.totalTyped - game.mistakes;
 
-  const ACCFormula = Math.round((correctChars / (game.currentIndex + 1)) * 100);
+  let ACCFormula = Math.round((correctChars / game.totalTyped) * 100);
+
+  // caps formula
+  if (ACCFormula < 0) ACCFormula = 0;
+  if (ACCFormula > 100) ACCFormula = 100;
 
   game.accuracy = ACCFormula;
   ACCDiv.textContent = String(game.accuracy) + "%";

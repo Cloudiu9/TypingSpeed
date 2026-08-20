@@ -15,8 +15,8 @@ DropdownMenus();
 
 // TODO
 // add a cap of ~15 user inputs per letter, so user can't just hold down 'a' for whole text, or maybe only move index when letter is right? maybe it doesn't matter as accuracy will just be near 0? (GameLogic)
-// After confirming the alert/button that pops up, reset everything? ==> randomize text, add overlay back, reset timer (StartRun)
-// When swapping a mode/difficulty ==> reset whole game (timer, WPM, states)
+// --DONE-- After confirming the alert/button that pops up, reset everything? ==> randomize text, add overlay back, reset timer (StartRun)
+// --DONE-- When swapping a mode/difficulty ==> reset whole game (timer, WPM, states)
 
 // TODO
 // BUG Typing test ends 1 character too soon. (can't type final .) Fixed by moving the game ending check before increasing index (needs more testing?)
@@ -26,3 +26,5 @@ DropdownMenus();
 //
 // --DONE-- Change game ending alert to the results page
 // --DONE-- Reset game state to beginning after clicking restart (make restart btn actually restart) ==> just had to unhide Start btn
+// --DONE-- Implemented backspace functionality
+// Save personal best WPM in localStorage
