@@ -1,6 +1,7 @@
-import { syncMenuInteractiveness } from "./DropdownMenus";
+import DropdownMenus, { syncMenuInteractiveness } from "./DropdownMenus";
 import {
   calculateAccuracy,
+  calculatePB,
   calculateWPM,
   defaultGame,
   game,
@@ -31,6 +32,7 @@ restartBtn?.addEventListener("click", () => {
   // Reset UI
   calculateWPM();
   calculateAccuracy();
+  DropdownMenus();
 
   if (!timerEl) return;
   timerEl.textContent = "0:60";
@@ -67,6 +69,8 @@ function endGame() {
 
     syncMenuInteractiveness();
     clearInterval(timer);
+    calculatePB();
+
     mainWrapper?.classList.add("hidden");
     resultsWrapper?.classList.remove("hidden");
     resultsWrapper?.classList.add("flex");

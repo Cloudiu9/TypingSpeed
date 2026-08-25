@@ -18,8 +18,8 @@
 
     <title>Frontend Mentor | Typing Speed Test</title>
   </head>
-  <body class="bg-neutral-900 text-white font-sora font-normal">
-    <main class="mx-auto max-w-360 px-4 sm:px-6 lg:px-8 py-6">
+  <body class="min-h-screen bg-neutral-900 text-white font-sora flex flex-col">
+    <main class="flex-1 mx-auto w-full max-w-360 px-4 sm:px-6 lg:px-8 py-6">
       <header class="flex justify-between items-center mb-6 md:mb-12">
         <img
           src="src/assets/images/logo-large.svg"
@@ -30,10 +30,10 @@
         <div class="flex gap-2">
           <img class="" src="src/assets/images/icon-personal-best.svg" alt="" />
           <p class="text-neutral-400 hidden md:block">
-            Personal best: <span class="text-white">92 WPM</span>
+            Personal best: <span class="text-white wpm-pb"></span>
           </p>
           <p class="text-neutral-400 block md:hidden">
-            Best: <span class="text-white">92 WPM</span>
+            Best: <span class="text-white wpm-pb"></span>
           </p>
         </div>
       </header>
@@ -282,19 +282,21 @@
       </section>
     </main>
 
-    <footer class="mt-20 text-center">
-      Challenge by
-      <a
-        class="bold text-2xl text-blue-600 px-2"
-        href="https://www.frontendmentor.io?ref=challenge"
-        >Frontend Mentor.</a
-      >
-      Coded by
-      <a
-        class="bold text-2xl text-blue-600 px-2"
-        href="https://github.com/Cloudiu9/"
-        >Claudiu Bordea.</a
-      >
+    <footer class="py-6">
+      <div class="mx-auto w-full max-w-360 px-4 sm:px-6 lg:px-8 text-center">
+        Challenge by
+        <a
+          class="bold text-2xl text-blue-600 px-2"
+          href="https://www.frontendmentor.io?ref=challenge"
+          >Frontend Mentor.</a
+        >
+        Coded by
+        <a
+          class="bold text-2xl text-blue-600 px-2"
+          href="https://github.com/Cloudiu9/"
+          >Claudiu Bordea.</a
+        >
+      </div>
     </footer>
   </body>
 </html>

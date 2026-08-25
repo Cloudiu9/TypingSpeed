@@ -1,10 +1,14 @@
 import StartRun from "./HandleRun";
 import data from "../data.json";
 import { syncMenuInteractiveness } from "./DropdownMenus";
+import handleStorage from "./HandleStorage";
 
 const racingText = document.querySelector<HTMLParagraphElement>("#racing-text");
 const WPMDiv = document.querySelector<HTMLSpanElement>("#wpm-cur");
 const ACCDiv = document.querySelector<HTMLSpanElement>("#acc-cur");
+
+// needs to be like this to also update mobile version
+const wpmPB = document.querySelectorAll<HTMLSpanElement>(".wpm-pb");
 
 // Results
 const wpmSpan = document.querySelector("#results-wpm");
@@ -91,8 +95,6 @@ document.addEventListener("keydown", (e) => {
 
   // mark letter to type
   racingText?.children[game.currentIndex].classList.add("underline");
-
-  console.log(game.totalTyped, game.currentIndex);
 });
 
 // Source of truth for game state
@@ -109,6 +111,7 @@ export const game = {
   mode: "Timed",
   timeRemaining: 60,
   WPM: 0,
+  PB: 0,
   accuracy: 0,
 };
 
@@ -121,7 +124,6 @@ export const defaultGame = {
   started: false,
   finished: false,
   typingLock: false,
-  difficulty: "Easy",
   mode: "Timed",
   timeRemaining: 60,
   WPM: 0,
@@ -144,6 +146,9 @@ export default function StartGame() {
 
   // underline letters
   userTyping();
+
+  // retrieve PB
+  calculatePB();
 }
 
 // https://www.geeksforgeeks.org/javascript/design-a-typing-speed-test-game-using-javascript/
@@ -204,6 +209,19 @@ export function calculateWPM() {
     if (!wpmSpan) return;
     wpmSpan.textContent = String(game.WPM);
   }
+}
+
+export function calculatePB() {
+  if (!wpmPB) return;
+  // on game end, update WPM to PB
+  if (game.PB < game.WPM) {
+    game.PB = game.WPM;
+  }
+  handleStorage();
+  // needs to be like this to also update mobile version
+  wpmPB.forEach((span) => {
+    span.textContent = String(game.PB) + "WPM";
+  });
 }
 
 export function calculateAccuracy() {
