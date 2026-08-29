@@ -10,14 +10,15 @@ import {
 // moved this outside for the helper function BUG?
 let timer: number;
 
-// Hiding overlay and starting race
 const timerEl = document.querySelector<HTMLSpanElement>("#timer");
 const overlayEl = document.querySelector<HTMLDivElement>("#overlay");
 const resultsWrapper = document.querySelector<HTMLDivElement>("#results");
 const mainWrapper = document.querySelector<HTMLDivElement>("#wrapper-main");
 const restartBtn = document.querySelector("#results-restart");
 
-restartBtn?.addEventListener("click", () => {
+// Hiding overlay and starting race
+
+const restartGame = () => {
   // reset game state
   Object.assign(game, defaultGame);
 
@@ -36,7 +37,9 @@ restartBtn?.addEventListener("click", () => {
 
   if (!timerEl) return;
   timerEl.textContent = "0:60";
-});
+};
+
+restartBtn?.addEventListener("click", restartGame);
 
 export default function StartRun() {
   function startRun() {

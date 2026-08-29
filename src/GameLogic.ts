@@ -6,6 +6,7 @@ import handleStorage from "./HandleStorage";
 const racingText = document.querySelector<HTMLParagraphElement>("#racing-text");
 const WPMDiv = document.querySelector<HTMLSpanElement>("#wpm-cur");
 const ACCDiv = document.querySelector<HTMLSpanElement>("#acc-cur");
+const lockPopup = document.querySelector<HTMLDivElement>("#lock-popup");
 
 // needs to be like this to also update mobile version
 const wpmPB = document.querySelectorAll<HTMLSpanElement>(".wpm-pb");
@@ -18,7 +19,7 @@ const wrongSpan = document.querySelector("#results-wrong");
 
 // Global event listener to avoid stacking on restart.
 
-// TODO Correct mistakes with backspace (original errors still count against accuracy)
+// --DONE-- Correct mistakes with backspace (original errors still count against accuracy)
 document.addEventListener("keydown", (e) => {
   if (!game.started || game.finished) return;
 
@@ -39,6 +40,7 @@ document.addEventListener("keydown", (e) => {
     calculateAccuracy();
 
     game.typingLock = false;
+    lockPopup?.classList.add("hidden");
 
     return;
   }
@@ -60,6 +62,7 @@ document.addEventListener("keydown", (e) => {
     // IF >= 5 consecutiveMistakes, prevent typing
     if (game.consecutiveMistakes >= 5) {
       game.typingLock = true;
+      lockPopup?.classList.remove("hidden");
     }
   }
 

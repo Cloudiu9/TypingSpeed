@@ -38,10 +38,36 @@
         </div>
       </header>
 
-      <section id="wrapper-main" class="">
+      <section id="wrapper-main">
         <div
           class="flex justify-center sm:justify-between items-center flex-wrap sm:flex-nowrap"
         >
+          <!-- Typing lock error popup -->
+          <div
+            id="lock-popup"
+            class="flex w-full max-w-85 flex-col items-center px-8 font-odyssey uppercase tracking-wider text-slate-200 text-center sm:max-w-95 sm:text-xl"
+          >
+            <div class="flex items-center justify-center gap-3">
+              <img
+                src="/src/assets/images/horse.png"
+                alt="horse"
+                class="h-14 w-14 shrink-0 object-contain"
+              />
+              <span class="whitespace-nowrap">
+                Press
+                <span class="text-xl font-bold text-blue-600 sm:text-3xl"
+                  >BACKSPACE!</span
+                >
+              </span>
+            </div>
+
+            <hr class="my-2 w-full border-blue-600" />
+
+            <span class="w-full text-base normal-case text-slate-400">
+              You've made 5 mistakes in a row.
+            </span>
+          </div>
+
           <!-- STATS -->
           <!-- px-60 to push mobile text onto the next row, probably better option? -->
           <div
