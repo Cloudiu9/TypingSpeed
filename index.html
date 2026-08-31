@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-dvh overflow-hidden">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,8 +18,10 @@
 
     <title>Frontend Mentor | Typing Speed Test</title>
   </head>
-  <body class="min-h-screen bg-neutral-900 text-white font-sora flex flex-col">
-    <main class="flex-1 mx-auto w-full max-w-360 px-4 sm:px-6 lg:px-8 py-6">
+  <body
+    class="h-dvh overflow-hidden bg-neutral-900 text-white font-sora flex flex-col"
+  >
+    <main class="mx-auto w-full max-w-360 px-4 sm:px-6 lg:px-8 py-6">
       <header class="flex justify-between items-center mb-6 md:mb-12">
         <img
           src="src/assets/images/logo-large.svg"
@@ -45,7 +47,7 @@
           <!-- Typing lock error popup -->
           <div
             id="lock-popup"
-            class="flex w-full max-w-85 flex-col items-center px-8 font-odyssey uppercase tracking-wider text-slate-200 text-center sm:max-w-95 sm:text-xl"
+            class="w-full max-w-85 flex-col items-center px-8 font-odyssey uppercase tracking-wider text-slate-200 text-center sm:max-w-95 sm:text-xl hidden"
           >
             <div class="flex items-center justify-center gap-3">
               <img
@@ -235,6 +237,16 @@
           <!-- TEXT TO WRITE -->
           <p class="text-2xl md:text-3xl pb-1" id="racing-text"></p>
 
+          <!-- input to focus for mobile keyboard -->
+          <input
+            id="typing-input"
+            type="text"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            class="absolute w-px h-px opacity-0"
+          />
           <!-- OVERLAY -->
           <div
             id="overlay"
@@ -308,7 +320,7 @@
       </section>
     </main>
 
-    <footer class="py-6">
+    <footer class="py-6 mt-30">
       <div class="mx-auto w-full max-w-360 px-4 sm:px-6 lg:px-8 text-center">
         Challenge by
         <a

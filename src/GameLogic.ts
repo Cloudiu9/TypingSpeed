@@ -17,6 +17,15 @@ const accSpan = document.querySelector("#results-acc");
 const corSpan = document.querySelector("#results-cor");
 const wrongSpan = document.querySelector("#results-wrong");
 
+// for mobile input
+const typingInput = document.querySelector<HTMLInputElement>("#typing-input");
+
+racingText?.addEventListener("click", () => {
+  if (!game.started) return;
+
+  typingInput?.focus();
+});
+
 // Global event listener to avoid stacking on restart.
 
 // --DONE-- Correct mistakes with backspace (original errors still count against accuracy)
@@ -40,7 +49,9 @@ document.addEventListener("keydown", (e) => {
     calculateAccuracy();
 
     game.typingLock = false;
+    game.consecutiveMistakes = 0;
     lockPopup?.classList.add("hidden");
+    lockPopup?.classList.remove("flex");
 
     return;
   }
@@ -63,6 +74,7 @@ document.addEventListener("keydown", (e) => {
     if (game.consecutiveMistakes >= 5) {
       game.typingLock = true;
       lockPopup?.classList.remove("hidden");
+      lockPopup?.classList.add("flex");
     }
   }
 

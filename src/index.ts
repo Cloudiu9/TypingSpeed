@@ -6,7 +6,15 @@ import StartGame, { calculatePB, getRacingText } from "./GameLogic";
 const btnStart = document.querySelector<HTMLButtonElement>("#start");
 const overlayEl = document.querySelector<HTMLDivElement>("#overlay");
 
-[btnStart, overlayEl].forEach((el) => el?.addEventListener("click", StartGame));
+// for mobile
+const typingInput = document.querySelector<HTMLInputElement>("#typing-input");
+
+[btnStart, overlayEl].forEach((el) => {
+  el?.addEventListener("click", () => {
+    StartGame();
+    typingInput?.focus();
+  });
+});
 
 // show text before starting
 getRacingText();
