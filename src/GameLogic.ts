@@ -26,90 +26,94 @@ racingText?.addEventListener("click", () => {
   typingInput?.focus();
 });
 
-// Global event listener to avoid stacking on restart.
+// zero width space (invisible character)
+// needs to be in the input in order for backspace to work
+const ZWSP = "\u200b";
+
+// call once, and again after every input event
+function resetInput() {
+  if (typingInput) typingInput.value = ZWSP;
+}
+
+resetInput(); // initialize on load
 
 // --DONE-- Correct mistakes with backspace (original errors still count against accuracy)
-document.addEventListener("keydown", (e) => {
-  if (!game.started || game.finished) return;
+// Refactored to work for mobile IMP
+typingInput?.addEventListener("input", (e: Event) => {
+  const inputEvent = e as InputEvent;
+  const value = typingInput.value;
 
-  // prevent null error when text ends
-  if (!racingText?.children[game.currentIndex]) return;
+  if (!game.started || game.finished) {
+    resetInput();
+    return;
+  }
 
-  // don't capture unwanted keys (ctrl, tab, etc.)
-  if (e.key.length !== 1 && e.key !== "Backspace") return;
+  // backspace: value is shorter than the baseline placeholder
+  if (
+    value.length < ZWSP.length ||
+    inputEvent.inputType === "deleteContentBackward"
+  ) {
+    if (game.currentIndex > 0) {
+      racingText?.children[game.currentIndex].classList.remove("underline");
+      game.currentIndex--;
+      racingText?.children[game.currentIndex].classList.remove("text-red-600");
+      racingText?.children[game.currentIndex].classList.remove(
+        "text-green-600",
+      );
+      racingText?.children[game.currentIndex].classList.add("underline");
 
-  if (e.key === "Backspace" && game.currentIndex > 0) {
-    racingText?.children[game.currentIndex].classList.remove("underline");
-    game.currentIndex--;
-    racingText?.children[game.currentIndex].classList.remove("text-red-600");
-    racingText?.children[game.currentIndex].classList.remove("text-green-600");
-    racingText?.children[game.currentIndex].classList.add("underline");
+      calculateWPM();
+      calculateAccuracy();
+
+      game.typingLock = false;
+      game.consecutiveMistakes = 0;
+      lockPopup?.classList.add("hidden");
+    }
+    resetInput();
+    return;
+  }
+
+  // anything typed shows up AFTER the placeholder
+  const typedChars = value.slice(ZWSP.length);
+
+  for (const key of typedChars) {
+    if (game.typingLock) break;
+    if (!racingText?.children[game.currentIndex]) break;
+
+    game.totalTyped++;
+
+    if (key !== game.text[game.currentIndex]) {
+      racingText?.children[game.currentIndex].classList.add("text-red-600");
+      game.mistakes++;
+      game.consecutiveMistakes++;
+
+      if (game.consecutiveMistakes >= 5) {
+        game.typingLock = true;
+        lockPopup?.classList.remove("hidden");
+      }
+    } else {
+      game.consecutiveMistakes = 0;
+      racingText?.children[game.currentIndex].classList.add("text-green-600");
+    }
 
     calculateWPM();
     calculateAccuracy();
 
-    game.typingLock = false;
-    game.consecutiveMistakes = 0;
-    lockPopup?.classList.add("hidden");
-    lockPopup?.classList.remove("flex");
+    if (game.currentIndex + 1 === game.text.length) {
+      game.started = false;
+      game.finished = true;
+      syncMenuInteractiveness();
+    }
 
-    return;
-  }
+    racingText?.children[game.currentIndex].classList.remove("underline");
+    game.currentIndex++;
 
-  if (game.typingLock) return;
-
-  // valid character
-  game.totalTyped++;
-
-  // if wrong
-  if (e.key !== game.text[game.currentIndex]) {
-    // mark letter as wrong
-    racingText?.children[game.currentIndex].classList.add("text-red-600");
-
-    game.mistakes++;
-
-    game.consecutiveMistakes++;
-
-    // IF >= 5 consecutiveMistakes, prevent typing
-    if (game.consecutiveMistakes >= 5) {
-      game.typingLock = true;
-      lockPopup?.classList.remove("hidden");
-      lockPopup?.classList.add("flex");
+    if (racingText?.children[game.currentIndex]) {
+      racingText.children[game.currentIndex].classList.add("underline");
     }
   }
 
-  // if correct
-  if (e.key === game.text[game.currentIndex]) {
-    // reset consecutive mistakes
-    game.consecutiveMistakes = 0;
-
-    // mark letter as right
-    racingText?.children[game.currentIndex].classList.add("text-green-600");
-  }
-
-  calculateWPM();
-  calculateAccuracy();
-
-  // Mark game as finished when reaching end // fixed by moving this before currentIndex++ ?
-
-  if (game.currentIndex + 1 === game.text.length) {
-    game.started = false;
-    game.finished = true;
-
-    // re-enable menus
-    syncMenuInteractiveness();
-  }
-
-  racingText?.children[game.currentIndex].classList.remove("underline");
-
-  // move to the next letter
-  game.currentIndex++;
-
-  // prevents error on game end
-  if (!racingText?.children[game.currentIndex]) return;
-
-  // mark letter to type
-  racingText?.children[game.currentIndex].classList.add("underline");
+  resetInput();
 });
 
 // Source of truth for game state
