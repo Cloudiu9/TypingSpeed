@@ -12,10 +12,10 @@ const lockPopup = document.querySelector<HTMLDivElement>("#lock-popup");
 const wpmPB = document.querySelectorAll<HTMLSpanElement>(".wpm-pb");
 
 // Results
-const wpmSpan = document.querySelector("#results-wpm");
-const accSpan = document.querySelector("#results-acc");
-const corSpan = document.querySelector("#results-cor");
-const wrongSpan = document.querySelector("#results-wrong");
+const wpmSpan = document.querySelectorAll("#results-wpm");
+const accSpan = document.querySelectorAll("#results-acc");
+const corSpan = document.querySelectorAll("#results-cor");
+const wrongSpan = document.querySelectorAll("#results-wrong");
 
 // for mobile input
 const typingInput = document.querySelector<HTMLInputElement>("#typing-input");
@@ -226,7 +226,10 @@ export function calculateWPM() {
 
     // Results page
     if (!wpmSpan) return;
-    wpmSpan.textContent = String(game.WPM);
+
+    wpmSpan.forEach((span) => {
+      span.textContent = String(game.WPM);
+    });
   }
 }
 
@@ -252,8 +255,6 @@ export function calculateAccuracy() {
     return;
   }
 
-  // BUG goes into negative when pressing backspace (-48/54)
-  // TODO change this with game.totalTyped
   const correctChars = game.totalTyped - game.mistakes;
 
   let ACCFormula = Math.round((correctChars / game.totalTyped) * 100);
@@ -267,11 +268,17 @@ export function calculateAccuracy() {
 
   // Results page
   if (!accSpan) return;
-  accSpan.textContent = String(game.accuracy) + "%";
+  accSpan.forEach((span) => {
+    span.textContent = String(game.accuracy) + "%";
+  });
 
   if (!corSpan) return;
-  corSpan.textContent = String(correctChars);
+  corSpan.forEach((span) => {
+    span.textContent = String(correctChars);
+  });
 
   if (!wrongSpan) return;
-  wrongSpan.textContent = String(game.mistakes);
+  wrongSpan.forEach((span) => {
+    span.textContent = String(game.mistakes);
+  });
 }

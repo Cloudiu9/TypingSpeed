@@ -13,8 +13,11 @@ let timer: number;
 const timerEl = document.querySelector<HTMLSpanElement>("#timer");
 const overlayEl = document.querySelector<HTMLDivElement>("#overlay");
 const resultsWrapper = document.querySelector<HTMLDivElement>("#results");
+const resultsWrapperFirst =
+  document.querySelector<HTMLDivElement>("#results-first");
+const resultsWrapperPB = document.querySelector<HTMLDivElement>("#results-pb");
 const mainWrapper = document.querySelector<HTMLDivElement>("#wrapper-main");
-const restartBtn = document.querySelector("#results-restart");
+const restartBtnAll = document.querySelectorAll("#results-restart");
 
 // Hiding overlay and starting race
 
@@ -27,7 +30,12 @@ const restartGame = () => {
 
   // hide results
   resultsWrapper?.classList.add("hidden");
+  resultsWrapperFirst?.classList.add("hidden");
+  resultsWrapperPB?.classList.add("hidden");
   resultsWrapper?.classList.remove("flex");
+  resultsWrapperFirst?.classList.remove("flex");
+  resultsWrapperPB?.classList.remove("flex");
+
   mainWrapper?.classList.remove("hidden");
 
   // Reset UI
@@ -39,7 +47,9 @@ const restartGame = () => {
   timerEl.textContent = "0:60";
 };
 
-restartBtn?.addEventListener("click", restartGame);
+restartBtnAll.forEach((btn) => {
+  btn?.addEventListener("click", restartGame);
+});
 
 export default function StartRun() {
   function startRun() {
@@ -70,11 +80,33 @@ function endGame() {
     game.finished = true;
     game.started = false;
 
+    if (game.PB === 0) {
+      resultsWrapperFirst?.classList.remove("hidden");
+      resultsWrapperFirst?.classList.add("flex");
+
+      syncMenuInteractiveness();
+      clearInterval(timer);
+      calculatePB();
+      mainWrapper?.classList.add("hidden");
+      return;
+    }
+
+    if (game.PB < game.WPM) {
+      resultsWrapperPB?.classList.remove("hidden");
+      resultsWrapperPB?.classList.add("flex");
+
+      syncMenuInteractiveness();
+      clearInterval(timer);
+      calculatePB();
+      mainWrapper?.classList.add("hidden");
+      return;
+    }
+
     syncMenuInteractiveness();
     clearInterval(timer);
     calculatePB();
-
     mainWrapper?.classList.add("hidden");
+
     resultsWrapper?.classList.remove("hidden");
     resultsWrapper?.classList.add("flex");
 
