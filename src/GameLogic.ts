@@ -20,7 +20,7 @@ const wrongSpan = document.querySelector("#results-wrong");
 // for mobile input
 const typingInput = document.querySelector<HTMLInputElement>("#typing-input");
 
-racingText?.addEventListener("click", () => {
+document?.addEventListener("click", () => {
   if (!game.started) return;
 
   typingInput?.focus();
