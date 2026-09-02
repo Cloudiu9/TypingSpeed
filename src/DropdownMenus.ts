@@ -38,6 +38,10 @@ export default function DropdownMenus() {
 
       console.log(`Changed Mode to ${selectedMode}`);
 
+      game.mode = selectedMode ?? "Timed";
+
+      console.log(game.mode);
+
       if (popoverMode && "hidePopover" in popoverMode)
         popoverMode.hidePopover();
     });

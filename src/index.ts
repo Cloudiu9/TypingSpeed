@@ -43,6 +43,7 @@ calculatePB();
 // --DONE-- Reset game state to beginning after clicking restart (make restart btn actually restart) ==> just had to unhide Start btn
 // --DONE-- Implemented backspace functionality
 // --DONE-- Save personal best WPM in localStorage
-// BUG On mobile there's a lot of space at the end that gets scrolled to when the user inputs a 'space' while typing.
-// Finish updating results page for the different scenarios (new PB, first run, etc.)
-// Polish and optimize mobile look and feel
+// --DONE-- On mobile there's a lot of space at the end that gets scrolled to when the user inputs a 'space' while typing.
+// --DONE-- Finish updating results page for the different scenarios (new PB, first run, etc.)
+// --DONE-- Polish and optimize mobile look and feel
+// Implement Passage gamemode (timer counts up, no limit)

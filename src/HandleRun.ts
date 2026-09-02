@@ -62,14 +62,28 @@ export default function StartRun() {
     overlayEl?.classList.add("hidden");
 
     // start clock
-    timer = setInterval(() => {
-      game.timeRemaining--;
-      if (timerEl && game.timeRemaining >= 0) {
-        timerEl.textContent = "0:" + `${game.timeRemaining}`.padStart(2, "0");
-      }
+    if (game.mode === "Timed") {
+      game.timeRemaining = 60;
+      timer = setInterval(() => {
+        game.timeRemaining--;
+        if (timerEl && game.timeRemaining >= 0)
+          timerEl.textContent = "0:" + `${game.timeRemaining}`.padStart(2, "0");
 
-      endGame();
-    }, 1000);
+        endGame();
+      }, 1000);
+    }
+
+    if (game.mode === "Passage") {
+      timer = setInterval(() => {
+        game.timeRemaining++;
+        // TODO need to handle minutes
+        if (timerEl) {
+          timerEl.textContent = "0:" + `${game.timeRemaining}`.padStart(2, "0");
+        }
+
+        endGame();
+      }, 1000);
+    }
   }
 
   startRun();
