@@ -74,12 +74,22 @@ export default function StartRun() {
     }
 
     if (game.mode === "Passage") {
+      if (!timerEl) return;
+      game.timeRemaining = 0;
       timer = setInterval(() => {
         game.timeRemaining++;
+
+        const minutes = Math.floor(game.timeRemaining / 60);
+        const seconds = game.timeRemaining % 60;
+
         // TODO need to handle minutes
-        if (timerEl) {
+        if (game.timeRemaining < 60)
           timerEl.textContent = "0:" + `${game.timeRemaining}`.padStart(2, "0");
-        }
+        else
+          timerEl.textContent =
+            `${String(minutes)}`.padStart(2, "0") +
+            ":" +
+            `${String(seconds)}`.padStart(2, "0");
 
         endGame();
       }, 1000);

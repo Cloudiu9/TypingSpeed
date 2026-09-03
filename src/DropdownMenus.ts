@@ -2,6 +2,8 @@ import { game, getRacingText } from "./GameLogic";
 
 const ACTIVE_CLASS = ["bg-blue-600", "text-white"];
 
+const timerEl = document.querySelector<HTMLSpanElement>("#timer");
+
 export default function DropdownMenus() {
   // Display/hide menu dropdown (difficulty)
   const popoverDiff = document.querySelector("#difficulty-menu") as HTMLElement;
@@ -31,16 +33,18 @@ export default function DropdownMenus() {
 
   modeButtons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
+      if (!timerEl) return;
+
       const target = e.currentTarget as HTMLButtonElement;
       setActiveButtons(target, ".mode-btn", ACTIVE_CLASS);
 
       const selectedMode = target.getAttribute("data-value");
 
-      console.log(`Changed Mode to ${selectedMode}`);
-
       game.mode = selectedMode ?? "Timed";
 
-      console.log(game.mode);
+      // changes timer accordingly before starting
+      if (game.mode === "Passage") timerEl.textContent = "0:00";
+      if (game.mode === "Timed") timerEl.textContent = "0:60";
 
       if (popoverMode && "hidePopover" in popoverMode)
         popoverMode.hidePopover();

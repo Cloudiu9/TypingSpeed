@@ -143,7 +143,7 @@ export const defaultGame = {
   started: false,
   finished: false,
   typingLock: false,
-  timeRemaining: 60,
+  timeRemaining: 0,
   WPM: 0,
   accuracy: 0,
 };
@@ -209,27 +209,36 @@ export function calculateWPM() {
   if (!WPMDiv) return;
   // WPM = (characters_typed / 5) * (60 / time_passed)
 
-  // prevents first second from bugging out
-  if (60 - game.timeRemaining === 0) {
+  let timePassedInSeconds = 0;
+
+  // handle Passage game mode: instead of 60 - timeRemaining, just do timeRemaining
+  if (game.mode === "Timed") {
+    timePassedInSeconds = 60 - game.timeRemaining;
+  } else {
+    timePassedInSeconds = game.timeRemaining;
+  }
+  // avoid division by 0
+  if (timePassedInSeconds <= 0) {
     game.WPM = 0;
 
     // restart
     WPMDiv.textContent = String(game.WPM);
-  } else {
-    const WPMFormula = Math.trunc(
-      (game.totalTyped / 5) * (60 / (60 - game.timeRemaining)),
-    );
-    game.WPM = WPMFormula;
-
-    WPMDiv.textContent = String(game.WPM);
-
-    // Results page
-    if (!wpmSpan) return;
-
-    wpmSpan.forEach((span) => {
-      span.textContent = String(game.WPM);
-    });
+    return;
   }
+
+  const WPMFormula = Math.trunc(
+    (game.totalTyped / 5) * (60 / timePassedInSeconds),
+  );
+  game.WPM = WPMFormula;
+
+  WPMDiv.textContent = String(game.WPM);
+
+  // Results page
+  if (!wpmSpan) return;
+
+  wpmSpan.forEach((span) => {
+    span.textContent = String(game.WPM);
+  });
 }
 
 export function calculatePB() {
