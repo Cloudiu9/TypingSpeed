@@ -136,7 +136,7 @@ if (
 }
 ```
 
-## Implemented a popup that singals a typing lockout to the user whenever they've made 5 consecutive typing mistakes, in order to prevent a very low accuracy.
+## Implemented a popup that signals a typing lockout to the user whenever they've made 5 consecutive typing mistakes, in order to prevent a very low accuracy.
 
 ```js
 if (game.consecutiveMistakes >= 5) {
