@@ -82,7 +82,6 @@ export default function StartRun() {
         const minutes = Math.floor(game.timeRemaining / 60);
         const seconds = game.timeRemaining % 60;
 
-        // TODO need to handle minutes
         if (game.timeRemaining < 60)
           timerEl.textContent = "0:" + `${game.timeRemaining}`.padStart(2, "0");
         else
@@ -135,6 +134,6 @@ function endGame() {
     resultsWrapper?.classList.add("flex");
 
     // Reset everything ==> randomize text, add overlay back, reset timer
-    // ==> added global event listener, just unhides starting overlay is enough (?)
+    // ==> added global event listener, just unhiding starting overlay is enough
   }
 }

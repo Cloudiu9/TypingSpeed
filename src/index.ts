@@ -46,4 +46,4 @@ calculatePB();
 // --DONE-- On mobile there's a lot of space at the end that gets scrolled to when the user inputs a 'space' while typing.
 // --DONE-- Finish updating results page for the different scenarios (new PB, first run, etc.)
 // --DONE-- Polish and optimize mobile look and feel
-// Implement Passage gamemode (timer counts up, no limit)
+// --DONE-- Implement Passage gamemode (timer counts up, no limit)
