@@ -147,9 +147,9 @@ if (game.consecutiveMistakes >= 5) {
 
 ### Backspace can remove the lock, allowing the user to correct their mistakes and continue typing.
 
-**## Learned how to use the native HTML Popover API to create the mobile difficulty and mode menus.**
+## Learned how to use the native HTML Popover API to create the mobile difficulty and mode menus.
 
-**### `popovertarget` connects a button to a popover element, allowing the browser to handle opening and closing the menu.**
+### `popovertarget` connects a button to a popover element, allowing the browser to handle opening and closing the menu.
 
 ```html
 <button popovertarget="difficulty-menu">Difficulty</button>
@@ -157,9 +157,9 @@ if (game.consecutiveMistakes >= 5) {
 <div popover id="difficulty-menu">...</div>
 ```
 
-**## Used CSS Anchor Positioning to position each popover relative to its corresponding button.**
+## Used CSS Anchor Positioning to position each popover relative to its corresponding button.
 
-**### The button's parent defines an anchor name, while the popover uses `position-anchor` to reference it.**
+### The button's parent defines an anchor name, while the popover uses `position-anchor` to reference it.
 
 ```html
 <div class="[anchor-name:--diff-btn]">
@@ -177,6 +177,6 @@ if (game.consecutiveMistakes >= 5) {
 </div>
 ```
 
-**### `anchor(bottom)` positions the top of the popover at the bottom of the button, while `anchor(left)` aligns their left edges.**
+### `anchor(bottom)` positions the top of the popover at the bottom of the button, while `anchor(left)` aligns their left edges.
 
-**### Used `supports-position-anchor:` so the positioning rules only apply when the browser supports CSS Anchor Positioning.**
+### Used `supports-position-anchor:` so the positioning rules only apply when the browser supports CSS Anchor Positioning.
